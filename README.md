@@ -22,7 +22,7 @@ DELETE KEYWORD
 
 ** Bugs:
 
-• Block 57 is not populating the correct number (check if conditionals in eachBlocksSurroundings() **SIDENOTE** change name (eachBlocksSurroundings)
+FIXED • Block 57 is not populating the correct number (check if conditionals in eachBlocksSurroundings() **SIDENOTE** change name (eachBlocksSurroundings)
 
 ** Future Implementation
 
@@ -62,3 +62,30 @@ mineSweeper = {
 	<!-- displayNumberOfBombsLeft: FUNCTION, -->
 
 }
+
+****************************
+Scratch Pad
+****************************
+
+mineSweeper = {
+	gameBlocks = {
+		# = {
+			bomb: BOOLEAN, ** ONLY IF gameBlocks IS CHANGED TO nonBombs **
+			active/clicked/uncovered: BOOLEAN,
+			blocksNextToIt: ARRAY,
+			flagged: BOOLEAN
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+

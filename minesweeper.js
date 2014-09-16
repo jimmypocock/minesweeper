@@ -5,7 +5,7 @@ var mineSweeper = { // game object
 	bombs: [],
 	nonBombs: {}, // { key = number of nonBomb block, value = how many bombs are near it.}
 	// playersClicks: [],
-	// flagMode: false, // depends on whether blocks can be clicked, whether to lay down the flag, and whether to update the bombsLeft property.
+	flagMode: false, // depends on whether blocks can be clicked, whether to lay down the flag, and whether to update the bombsLeft property.
 	// bombsLeft: 10, // number of bombs left
 	// init: function() {
 	//     // if(this.handler===false) {
@@ -34,7 +34,7 @@ var mineSweeper = { // game object
 	isItABomb: function(number) { // Register the block as clicked.
 		// var number = blockNumber.replace('.block', '');
 	    // var blockNumber = parseInt(block);
-	    if ($.inArray(number, mineSweeper['bombs']) != -1){
+	    if ($.inArray(number, this['bombs']) != -1){
 	    	console.log(number + "true");
 	    	return true;
 	    } else {
@@ -68,10 +68,10 @@ var mineSweeper = { // game object
 		// that = this;
 	},
 	populateNonBombs: function() {
-		// var that = this;
+		that = this;
 		$.each(this.gameBlocks, function(_,val){
-			if($.inArray(val, mineSweeper['bombs']) == -1){
-				mineSweeper['nonBombs'][val] = 0;
+			if($.inArray(val, that['bombs']) == -1){
+				that['nonBombs'][val] = 0;
 			};
 		})
 
@@ -187,6 +187,32 @@ var mineSweeper = { // game object
 				mineSweeper.nonBombs[val] = bombs;
 				tempArray.push(val);
 			}
+			if (parseInt(val) === 57){ // for block 57
+				if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+					bombs++;
+				}
+				if ($.inArray(parseInt(val)-7,mineSweeper['bombs']) != -1){
+					bombs++;
+				}
+				if ($.inArray(parseInt(val)+1,mineSweeper['bombs']) != -1){
+					bombs++;
+				}
+				mineSweeper.nonBombs[val] = bombs;
+				tempArray.push(val);
+			}
+			if (parseInt(val) === 64){ // for block 64
+				if ($.inArray(parseInt(val)-9,mineSweeper['bombs']) != -1){
+					bombs++;
+				}
+				if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+					bombs++;
+				}
+				if ($.inArray(parseInt(val)-1,mineSweeper['bombs']) != -1){
+					bombs++;
+				}
+				mineSweeper.nonBombs[val] = bombs;
+				tempArray.push(val);
+			}
 			if ($.inArray(val, tempArray) == -1){ 
 				if ($.inArray(parseInt(val)-9,mineSweeper['bombs']) != -1){
 					bombs++;
@@ -220,6 +246,16 @@ var mineSweeper = { // game object
 			$('.block'+val).text(num);
 		})
 	},
+
+	switchToFlagMode: function(){
+		if (this.flagMode === true) {
+			$('.flag').css('background', 'transparent');
+			this.flagMode = false;
+		} else {
+			$('.flag').css('background', 'black');
+			this.flagMode = true;
+		}
+	}
 	// flagBlock: function(block) {
 		// place a flag on the block
 		// do not allow a player to click this button (('.block').prop('disabled', true))
@@ -248,7 +284,8 @@ var mineSweeper = { // game object
 //  	bomb: false, // whether this block is a bomb
 //   	clicked: false,
 //   	squaresNextToIt: [],
-//   	bombsAroundIt: []
+//   	bombsAroundIt: [],
+// 		flagged: true
 // };
 
 $(document).ready(function(){
@@ -256,14 +293,26 @@ $(document).ready(function(){
     	mineSweeper.newGame();
     	$.each(mineSweeper.gameBlocks, function(_,val) {
 	  		$('.block'+val).on('mouseup', function(){
-	  			if (mineSweeper.isItABomb(val) == false){
-		  			$('.block'+val).css('background', 'white').css('color', 'black') //.css('border', '2px solid black');
-		  		} else {
-		  			$('.gameContainer').css('background', 'white').css('color','white');
-		  		}
+	  			if (mineSweeper.flagMode == false){
+		  			if (mineSweeper.isItABomb(val) == false){
+			  			$('.block'+val).css('background', 'white').css('color', 'black') //.css('border', '2px solid black');
+			  		} else {
+			  			$('.gameContainer').css('background', 'white').css('color','white');
+			  		}
+			  	} else {
+			  		// var attr = $('.block'+val).attr('background', 'black')
+			  		// if (typeof attr !== typeof undefined && attr !== false){
+			  			$('.block'+val).css('background', 'black');
+			  		// } else {
+			  		// 	$('.block'+val).attr('background', 'transparent');
+			  		// }
+			  	}
 		  	});
 	  	});
     });
+    $('.flag').on('mousedown', function(){
+    	mineSweeper.switchToFlagMode();
+    })
 
     $('.start').on('mouseup', function(){
     	this.blur();

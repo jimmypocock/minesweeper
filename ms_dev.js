@@ -302,7 +302,7 @@ $(document).ready(function(){
 			  	} else {
 			  		// var attr = $('.block'+val).attr('background', 'black')
 			  		// if (typeof attr !== typeof undefined && attr !== false){
-			  		// 	$('.block'+val).css('background', 'black');
+			  			$('.block'+val).css('background', 'black');
 			  		// } else {
 			  		// 	$('.block'+val).attr('background', 'transparent');
 			  		// }
