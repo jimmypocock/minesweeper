@@ -1,0 +1,529 @@
+<!-- 
+Credits:
+Box shadow - http://www.paulund.co.uk/creating-different-css3-box-shadows-effects
+Simon says game - http://www.danpurdy.co.uk/tutorial/simon-says-game-in-jquery-tutorial/
+rainbow css - 
+
+Notes:
+
+
+
+-->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>MineSweeper</title>
+		<style>
+
+			html, body, div, span, applet, object, iframe,
+			h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+			a, abbr, acronym, address, big, cite, code,
+			del, dfn, em, img, ins, kbd, q, s, samp,
+			small, strike, strong, sub, sup, tt, var,
+			b, u, i, center,
+			dl, dt, dd, ol, ul, li,
+			fieldset, form, label, legend,
+			table, caption, tbody, tfoot, thead, tr, th, td,
+			article, aside, canvas, details, embed, 
+			figure, figcaption, footer, header, hgroup, 
+			menu, nav, output, ruby, section, summary,
+			time, mark, audio, video {
+				margin: 0;
+				padding: 0;
+				border: 0;
+				font-size: 100%;
+				font: inherit;
+				vertical-align: baseline;
+			}
+			/* HTML5 display-role reset for older browsers */
+			article, aside, details, figcaption, figure, 
+			footer, header, hgroup, menu, nav, section {
+				display: block;
+			}
+			body {
+				line-height: 1;
+			}
+			ol, ul {
+				list-style: none;
+			}
+			blockquote, q {
+				quotes: none;
+			}
+			blockquote:before, blockquote:after,
+			q:before, q:after {
+				content: '';
+				content: none;
+			}
+			table {
+				border-collapse: collapse;
+				border-spacing: 0;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			.gameContainer {
+				position: relative;
+				width: 402px;
+				height: 402px;
+				margin: 0 auto;
+				background: transparent;
+				border: 1px solid white;
+				cursor: pointer;
+			}
+			.bodyContainer {
+				height: 100%;
+				width: 100%;
+			}
+			.row {
+				clear: both;
+			}
+			.block {
+				float: left;
+				width: 50px;
+				height: 50px;
+				border: 2px solid white;
+				text-align: center;
+				line-height: 50px;
+				font-size: 1.5em;
+				color: transparent;
+				/*color: white;*/
+				/*background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );*/
+				/*background-image: gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );*/
+				/*background: white;*/
+			}
+			.header {
+				float: left;
+				text-align: center;
+			 	display: block;
+			}
+			.start {
+				border: 2px solid white;
+				display: block;
+				margin: 20px auto;
+				color: white;
+				background: transparent;
+				height: 50px;
+				width: 100px;
+				border-radius: 10px; 
+				font-size: 1.7em;
+			}
+			body {
+				background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+				background-image: gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+			}
+
+			.block {
+			  	position: relative;
+			    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+			       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+			            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+			            /*box-shadow: -2px -2px -1px black;*/
+			}
+			.block:before, .block:after {
+				/*content:"";*/
+			    /*position:absolute; */
+			    /*z-index:-1;*/
+			    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
+			    -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
+			    box-shadow:0 0 20px rgba(0,0,0,0.8);
+			    /*top:10px;*/
+			    /*bottom:10px;*/
+			    /*left:0;
+			    right:0;*/
+			    /*-moz-border-radius:100px / 10px;*/
+			    /*border-radius:100px / 10px;*/
+			} 
+			.block:after {
+			    -webkit-transform:skew(8deg) rotate(3deg); 
+			       -moz-transform:skew(8deg) rotate(3deg);     
+			        -ms-transform:skew(8deg) rotate(3deg);     
+			         -o-transform:skew(8deg) rotate(3deg); 
+			            transform:skew(8deg) rotate(3deg);
+			}
+			
+		</style>
+	</head>
+	<body>
+		<!-- <div class="bodyContainer"> -->
+		<button type="button" class="start">Start</button>
+		<!-- <button type="button" class="but">but</button> -->
+
+			
+			<div class="gameContainer rainbow">
+				<div class="row firstEight">
+				    <div class="block block1 effect" data-block="1"></div>
+				    <div class="block block2" data-block="2"></div>
+				    <div class="block block3" data-block="3"></div>
+				    <div class="block block4" data-block="4"></div>
+				    <div class="block block5" data-block="5"></div>
+				    <div class="block block6" data-block="6"></div>
+				    <div class="block block7" data-block="7"></div>
+				    <div class="block block8" data-block="8"></div>
+				</div>
+				<div class="row secondEight">
+				    <div class="block block9" data-block="9"></div>
+				    <div class="block block10" data-block="10"></div>
+				    <div class="block block11" data-block="11"></div>
+				    <div class="block block12" data-block="12"></div>
+				    <div class="block block13" data-block="13"></div>
+				    <div class="block block14" data-block="14"></div>
+				    <div class="block block15" data-block="15"></div>
+				    <div class="block block16" data-block="16"></div>
+				</div>
+				<div class="row thirdEight">
+				    <div class="block block17" data-block="17"></div>
+				    <div class="block block18" data-block="18"></div>
+				    <div class="block block19" data-block="19"></div>
+				    <div class="block block20" data-block="20"></div>
+				    <div class="block block21" data-block="21"></div>
+				    <div class="block block22" data-block="22"></div>
+				    <div class="block block23" data-block="23"></div>
+				    <div class="block block24" data-block="24"></div>
+				</div>
+				<div class="row fourthEight">
+				    <div class="block block25" data-block="25"></div>
+				    <div class="block block26" data-block="26"></div>
+				    <div class="block block27" data-block="27"></div>
+				    <div class="block block28" data-block="28"></div>
+				    <div class="block block29" data-block="29"></div>
+				    <div class="block block30" data-block="30"></div>
+				    <div class="block block31" data-block="31"></div>
+				    <div class="block block32" data-block="32"></div>
+				</div>
+				<div class="row fifthEight">
+				    <div class="block block33" data-block="33"></div>
+				    <div class="block block34" data-block="34"></div>
+				    <div class="block block35" data-block="35"></div>
+				    <div class="block block36" data-block="36"></div>
+				    <div class="block block37" data-block="37"></div>
+				    <div class="block block38" data-block="38"></div>
+				    <div class="block block39" data-block="39"></div>
+				    <div class="block block40" data-block="40"></div>
+				</div>
+				<div class="row sixthEight">
+				    <div class="block block41" data-block="41"></div>
+				    <div class="block block42" data-block="42"></div>
+				    <div class="block block43" data-block="43"></div>
+				    <div class="block block44" data-block="44"></div>
+				    <div class="block block45" data-block="45"></div>
+				    <div class="block block46" data-block="46"></div>
+				    <div class="block block47" data-block="47"></div>
+				    <div class="block block48" data-block="48"></div>
+				</div>
+				<div class="row seventhEight">
+				    <div class="block block49" data-block="49"></div>
+				    <div class="block block50" data-block="50"></div>
+				    <div class="block block51" data-block="51"></div>
+				    <div class="block block52" data-block="52"></div>
+				    <div class="block block53" data-block="53"></div>
+				    <div class="block block54" data-block="54"></div>
+				    <div class="block block55" data-block="55"></div>
+				    <div class="block block56" data-block="56"></div>
+				</div>
+				<div class="row eighthEight">
+				    <div class="block block57" data-block="57"></div>
+				    <div class="block block58" data-block="58"></div>
+				    <div class="block block59" data-block="59"></div>
+				    <div class="block block60" data-block="60"></div>
+				    <div class="block block61" data-block="61"></div>
+				    <div class="block block62" data-block="62"></div>
+				    <div class="block block63" data-block="63"></div>
+				    <div class="block block64" data-block="64"></div>
+				</div>
+			</div>
+		<!-- </div> -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script>
+
+			/**
+			 * • Bug with block 57
+			 * • Implement flagMode
+			 * • Update bombsLeft
+			 * • Open connecting 0 blocks after each click 
+			 */
+			var mineSweeper = { // game object
+				active: true,
+				handler: true,
+				gameBlocks: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64],
+				bombs: [],
+				nonBombs: {}, // { key = number of nonBomb block, value = how many bombs are near it.}
+				// playersClicks: [],
+				flagMode: false, // depends on whether blocks can be clicked, whether to lay down the flag, and whether to update the bombsLeft property.
+				bombsLeft: 10, // number of bombs left
+				// init: function() {
+				//     // if(this.handler===false) {
+				//     //   this.initBlockHandler();
+				//     // }
+				//     this.newGame();
+				// },
+				initBlockHandler: function() {
+				    // var that = this;
+				    // $('.block').on('mouseup', function() {
+				      // if(that.active === true) {
+				        // var block=parseInt($(this).data('box'),10);
+				        // that.click($(this), block);
+				        // that.logPlayerSequence(block);
+				      // }
+				    // });
+				    // this.handler = true;
+				},
+				newGame: function () {
+				    this.displayNumberOfBombsLeft();
+				    this.randomizeBombs();
+				    this.dropBombs();
+				    this.populateNonBombs();
+				    this.eachBlocksSurroundings();
+				},
+				isItABomb: function(number) { // Register the block as clicked.
+					// var number = blockNumber.replace('.block', '');
+				    // var blockNumber = parseInt(block);
+				    if ($.inArray(number, mineSweeper['bombs']) != -1){
+				    	console.log(number + "true");
+				    	return true;
+				    } else {
+				    	console.log(number + "false");
+				    	return false;
+				    }
+				},
+				randomizeBombs: function() { // Randomize location of blocks.
+				    while(this.bombs.length < 10){
+				    	var randomNumber=Math.ceil(Math.random()*64);
+				    	var found=false;
+				    	for(var i=0; i<this.bombs.length; i++){
+				    		if(this.bombs[i]==randomNumber){
+				    			found=true;
+				    		}
+				    	}
+				    	if(!found)this.bombs[this.bombs.length]=randomNumber;
+				    }
+				},
+				checkTopLeftBlock: function(val) {
+					if ($.inArray(val-9,mineSweeper['bombs']) != -1){
+						return true;
+					} else {
+						return false;
+					}
+				},
+				dropBombs: function() {
+					$.each(this.bombs, function(_,val) {
+						$('.block'+val).text("Ω");
+					});
+					// that = this;
+				},
+				populateNonBombs: function() {
+					// var that = this;
+					$.each(this.gameBlocks, function(_,val){
+						if($.inArray(val, mineSweeper['bombs']) == -1){
+							mineSweeper['nonBombs'][val] = 0;
+						};
+					})
+
+					// $.each(this.nonBombs, function(val, num){
+					// 	$('.block'+val).text(val);
+					// })
+				},
+				eachBlocksSurroundings: function() {
+					$.each(this.nonBombs, function(val,_){
+						var bombs = 0;
+						var tempArray = [];
+						if (parseInt(val) === 1) { // for block 1
+							bombs = 0;
+							if ($.inArray(parseInt(val)+1,mineSweeper['bombs']) != -1) { 
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+8,mineSweeper['bombs']) != -1) {
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+9,mineSweeper['bombs']) != -1) {
+								bombs++;
+							}
+							mineSweeper.nonBombs[val] = bombs;
+							tempArray.push(val);
+						}
+						if (parseInt(val) > 1 && parseInt(val) < 8){ // for blocks 2, 3, 4, 5, 6, 7
+							bombs = 0;
+							if ($.inArray(parseInt(val)-1,mineSweeper['bombs']) != -1){
+								bombs++;
+							} 
+							if ($.inArray(parseInt(val)+1,mineSweeper['bombs']) != -1){
+								bombs++;
+							} 
+							if ($.inArray(parseInt(val)+7,mineSweeper['bombs']) != -1){
+								bombs++;
+							} 
+							if ($.inArray(parseInt(val)+8,mineSweeper['bombs']) != -1){
+								bombs++;
+							} 
+							if ($.inArray(parseInt(val)+9,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							mineSweeper.nonBombs[val] = bombs;
+							tempArray.push(val);
+						}
+						if (parseInt(val) == 8){ // for block 8
+							if ($.inArray(parseInt(val)-1,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+7,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+8,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							mineSweeper.nonBombs[val] = bombs;
+							tempArray.push(val);
+						}
+						if (parseInt(val) % 8 == 0 && val != 8 && val != 64){ // for blocks 16, 24, 32, 40, 48, 56
+							if ($.inArray(parseInt(val)-9,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)-1,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+7,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+8,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							mineSweeper.nonBombs[val] = bombs;
+							tempArray.push(val);
+						}
+						if ((parseInt(val)-1) % 8 == 0 && parseInt(val) != 57 && parseInt(val) != 1){ // for blocks 9, 17, 25, 33, 41, 49
+							if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)-7,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+1,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+8,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+9,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							mineSweeper.nonBombs[val] = bombs;
+							tempArray.push(val);
+						}
+						if (parseInt(val) > 57 && parseInt(val) < 64){ // for blocks 58, 59, 60, 61, 62, 63
+							if ($.inArray(parseInt(val)-9,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)-7,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)-1,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+1,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							mineSweeper.nonBombs[val] = bombs;
+							tempArray.push(val);
+						}
+						if ($.inArray(val, tempArray) == -1){ 
+							if ($.inArray(parseInt(val)-9,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)-7,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)-1,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+1,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+7,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+8,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							if ($.inArray(parseInt(val)+9,mineSweeper['bombs']) != -1){
+								bombs++;
+							}
+							mineSweeper.nonBombs[val] = bombs;
+						}
+					});
+					
+					$.each(this.nonBombs, function(val, num){
+						$('.block'+val).text(num);
+					})
+				},
+				flagBlock: function(block) {
+					// place a flag on the block
+					// do not allow a player to click this button (('.block').prop('disabled', true))
+				},
+				blowOffScreen: function(block) {
+					// individual block looks like it's blown off the screen
+					// if player lands on a bomb, all blocks blow off the screen.
+				},
+				// logPlayersClicks: function() { // Log the blocks the player selected.
+				    
+				// },
+				checkBlock: function() { // Check if block that was clicked is a bomb or not.
+				    
+				},
+				displayNumberOfBombsLeft: function() { // Updates number of bombs left on board
+				   
+				},
+				incorrectClick: function() { // Player clicked a bomb.
+				  
+				},
+				  
+			};
+
+			// var gameBlock = {
+			//   	blockNumber: 0,
+			//  	bomb: false, // whether this block is a bomb
+			//   	clicked: false,
+			//   	squaresNextToIt: [],
+			//   	bombsAroundIt: []
+			// };
+
+			$(document).ready(function(){
+			  	$('.start').on('mousedown', function(){
+			    	mineSweeper.newGame();
+			    	$.each(mineSweeper.gameBlocks, function(_,val) {
+				  		$('.block'+val).on('mouseup', function(){
+				  			if (mineSweeper.isItABomb(val) == false){
+					  			$('.block'+val).css('background', 'white').css('color', 'black') //.css('border', '2px solid black');
+					  		} else {
+					  			$('.gameContainer').css('background', 'white').css('color','white');
+					  		}
+					  	});
+				  	});
+			    });
+
+			    $('.start').on('mouseup', function(){
+			    	this.blur();
+			  	});
+			  	// $.each(mineSweeper.gameBlocks, function(_,val) {
+			  	// 	$('.block'+val).on('mouseup', function(){
+				  // 		$('.block'+val).css('background', 'white');
+				  // 	});
+			  	// })
+			  	// $('.block').on('mouseup', function(){
+			  	// 	$('.block').css('background', 'white');
+			  	// });
+			  
+			});
+			
+
+		</script>
+	</body>
+</html>
