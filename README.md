@@ -22,7 +22,7 @@ DELETE KEYWORD
 
 ** Bugs:
 
-FIXED • Block 57 is not populating the correct number (check if conditionals in eachBlocksSurroundings() **SIDENOTE** change name (eachBlocksSurroundings)
+Cannot flag bombs, because the bombs array does not allow for a flagged key. Either check the bombs array for the blockNumber in the click function, or make bombs an object (like nonBombs) and have a flagged attribute. Might be more cohesive if I create an object. So, i'm leaning that route...
 
 ** Future Implementation
 
@@ -71,15 +71,13 @@ mineSweeper = {
 	nonBombs = {
 		# = {
 			active/clicked/uncovered: BOOLEAN,
-			blocksNextToIt: ARRAY,
+			touchingBombs: ARRAY,
 			flagged: BOOLEAN
 		}
 	}
 }
 
 To make a bomb explode, i could add 9 figures within each block div. each figure has a different color of the rainbow and when the div is clicked, the figures disperse off the side of the screen, and the div is left with a white background.
-
-
 
 
 
