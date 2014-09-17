@@ -54,13 +54,40 @@ var mineSweeper = { // game object
 	    	if(!found)this.bombs[this.bombs.length]=randomNumber;
 	    }
 	},
-	// checkTopLeftBlock: function(val) {
-	// 	if ($.inArray(val-9,mineSweeper['bombs']) != -1){
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// },
+	checkTopLeftBlock: function(val) {
+		var num = parseInt(val) - 9;
+		if ($.inArray(num,this.bombs) != -1){
+			return true;
+		} //else {
+			return false;
+		// }
+	},
+	checkTopBlock: function(val){
+		var num = parseInt(val) - 8;
+		if ($.inArray(num,this.bombs) != -1){
+			return true;
+		}
+		return false;
+	},
+	checkTopRightBlock: function(val){
+		// var num = parseInt(val) - 7;
+		// if ($.inArray(num,))
+	},
+	checkLeftBlock: function(val){
+
+	},
+	checkRightBlock: function(val){
+
+	},
+	checkBottomLeftBlock: function(val){
+
+	},
+	checkBottomBlock: function(val){
+
+	},
+	checkBottomRightBlock: function(val){
+
+	},
 	dropBombs: function() {
 		$.each(this.bombs, function(_,val) {
 			$('.block'+val).text("Ω");
@@ -71,7 +98,7 @@ var mineSweeper = { // game object
 		that = this;
 		$.each(this.gameBlocks, function(_,val){
 			if($.inArray(val, that['bombs']) == -1){
-				that['nonBombs'][val] = 0;
+				that['nonBombs'][val] = {};
 			};
 		})
 
@@ -80,6 +107,7 @@ var mineSweeper = { // game object
 		// })
 	},
 	eachBlocksSurroundings: function() {
+		that = this;
 		$.each(this.nonBombs, function(val,_){
 			var bombs = 0;
 			var tempArray = [];
@@ -131,10 +159,10 @@ var mineSweeper = { // game object
 				tempArray.push(val);
 			}
 			if (parseInt(val) % 8 == 0 && val != 8 && val != 64){ // for blocks 16, 24, 32, 40, 48, 56
-				if ($.inArray(parseInt(val)-9,mineSweeper['bombs']) != -1){
+				if (that.checkTopLeftBlock(val)){
 					bombs++;
 				}
-				if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+				if (that.checkTopBlock(val)){
 					bombs++;
 				}
 				if ($.inArray(parseInt(val)-1,mineSweeper['bombs']) != -1){
@@ -150,7 +178,7 @@ var mineSweeper = { // game object
 				tempArray.push(val);
 			}
 			if ((parseInt(val)-1) % 8 == 0 && parseInt(val) != 57 && parseInt(val) != 1){ // for blocks 9, 17, 25, 33, 41, 49
-				if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+				if (that.checkTopBlock(val)){
 					bombs++;
 				}
 				if ($.inArray(parseInt(val)-7,mineSweeper['bombs']) != -1){
@@ -169,10 +197,10 @@ var mineSweeper = { // game object
 				tempArray.push(val);
 			}
 			if (parseInt(val) > 57 && parseInt(val) < 64){ // for blocks 58, 59, 60, 61, 62, 63
-				if ($.inArray(parseInt(val)-9,mineSweeper['bombs']) != -1){
+				if (that.checkTopLeftBlock(val)){
 					bombs++;
 				}
-				if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+				if (that.checkTopBlock(val)){
 					bombs++;
 				}
 				if ($.inArray(parseInt(val)-7,mineSweeper['bombs']) != -1){
@@ -188,7 +216,7 @@ var mineSweeper = { // game object
 				tempArray.push(val);
 			}
 			if (parseInt(val) === 57){ // for block 57
-				if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+				if (that.checkTopBlock(val)){
 					bombs++;
 				}
 				if ($.inArray(parseInt(val)-7,mineSweeper['bombs']) != -1){
@@ -201,10 +229,10 @@ var mineSweeper = { // game object
 				tempArray.push(val);
 			}
 			if (parseInt(val) === 64){ // for block 64
-				if ($.inArray(parseInt(val)-9,mineSweeper['bombs']) != -1){
+				if (that.checkTopLeftBlock(val)){
 					bombs++;
 				}
-				if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+				if (that.checkTopBlock(val)){
 					bombs++;
 				}
 				if ($.inArray(parseInt(val)-1,mineSweeper['bombs']) != -1){
@@ -214,10 +242,10 @@ var mineSweeper = { // game object
 				tempArray.push(val);
 			}
 			if ($.inArray(val, tempArray) == -1){ 
-				if ($.inArray(parseInt(val)-9,mineSweeper['bombs']) != -1){
+				if (that.checkTopLeftBlock(val)){
 					bombs++;
 				}
-				if ($.inArray(parseInt(val)-8,mineSweeper['bombs']) != -1){
+				if (that.checkTopBlock(val)){
 					bombs++;
 				}
 				if ($.inArray(parseInt(val)-7,mineSweeper['bombs']) != -1){

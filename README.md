@@ -68,9 +68,8 @@ Scratch Pad
 ****************************
 
 mineSweeper = {
-	gameBlocks = {
+	nonBombs = {
 		# = {
-			bomb: BOOLEAN, ** ONLY IF gameBlocks IS CHANGED TO nonBombs **
 			active/clicked/uncovered: BOOLEAN,
 			blocksNextToIt: ARRAY,
 			flagged: BOOLEAN
@@ -78,7 +77,7 @@ mineSweeper = {
 	}
 }
 
-
+To make a bomb explode, i could add 9 figures within each block div. each figure has a different color of the rainbow and when the div is clicked, the figures disperse off the side of the screen, and the div is left with a white background.
 
 
 
