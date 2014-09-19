@@ -174,7 +174,7 @@ var mineSweeper = { // game object
 				edges.push(val);
 			}
 
-			 // BLOCKS: 58, 59, 60, 61, 62, 63 (BOTTOM ROW)
+			// BLOCKS: 58, 59, 60, 61, 62, 63 (BOTTOM ROW)
 			if (parsedVal > 57 && parsedVal < 64){
 				if (that.checkBlock(val, that.topLeft))    bombs++;
 				if (that.checkBlock(val, that.topBlock))   bombs++;
@@ -257,8 +257,16 @@ var mineSweeper = { // game object
 
 					// BLOCK IS NOT FLAGGED
 					if (this.nonBombs[blockNumber]['flagged'] === false){
-
+						// console.log(blockNumber);
 						// BLOCK IS REVEALED
+
+			  			// BLOCK BECOMES INACTIVE
+			  			this.nonBombs[blockNumber].active = false
+
+						if (this.nonBombs[blockNumber]['touchingBombs'] == 0){
+							// console.log("checked", blockNumber);
+							this.clickSurroundingBlocks(blockNumber);
+						}
 			  			$('.block'+blockNumber).css('background', 'white').css('color', 'black');
 
 			  			// BLOCK BECOMES INACTIVE
@@ -313,6 +321,108 @@ var mineSweeper = { // game object
 				this.bombs[blockNumber]['flagged'] = true;
 				this.bombsLeft--;
 			}
+		}
+	},
+	clickSurroundingBlocks: function(blockNumber){
+		// if (this.nonBombs[blockNumber]['active'] == false) return;
+		var edges = [];
+
+		// BLOCK: 1 (TOP LEFT CORNER)
+		if (blockNumber === 1){
+			console.log(blockNumber, typeof blockNumber);
+			this.click(blockNumber+this.rightBlock);
+			this.click(blockNumber+this.bottomBlock);
+			this.click(blockNumber+this.bottomRight);
+			edges.push(blockNumber);
+		}
+
+		// BLOCK: 8 (TOP RIGHT CORNER)
+		if (blockNumber === 8){
+			console.log(blockNumber, typeof blockNumber);
+			this.click(blockNumber+this.leftBlock);
+			this.click(blockNumber+this.bottomLeft);
+			this.click(blockNumber+this.bottomBlock);
+			edges.push(blockNumber);
+		}
+
+		// BLOCK: 57 (BOTTOM LEFT CORNER)
+		if (blockNumber === 57){
+			console.log(blockNumber, typeof blockNumber);
+			this.click(blockNumber+this.topBlock);
+			this.click(blockNumber+this.topRight);
+			this.click(blockNumber+this.rightBlock);
+			edges.push(blockNumber);
+		}
+
+		// BLOCK: 64 (BOTTOM RIGHT CORNER)
+		if (blockNumber === 64){
+			console.log(blockNumber, typeof blockNumber);
+			this.click(blockNumber+this.topLeft);
+			this.click(blockNumber+this.topBlock);
+			this.click(blockNumber+this.leftBlock);
+			edges.push(blockNumber);
+		}
+
+		// BLOCKS: 2, 3, 4, 5, 6, 7 (TOP ROW)
+		if (blockNumber > 1 && blockNumber < 8){
+			console.log(blockNumber, typeof blockNumber);
+			console.log(blockNumber+this.leftBlock, typeof blockNumber);
+			console.log(blockNumber+this.rightBlock, typeof blockNumber);
+			console.log(blockNumber+this.bottomLeft, typeof blockNumber);
+			console.log(blockNumber+this.bottomBlock, typeof blockNumber);
+			console.log(blockNumber+this.bottomRight, typeof blockNumber);
+			this.click(blockNumber+this.leftBlock);
+			this.click(blockNumber+this.rightBlock);
+			this.click(blockNumber+this.bottomLeft);
+			this.click(blockNumber+this.bottomBlock);
+			this.click(blockNumber+this.bottomRight);
+			edges.push(blockNumber);
+		}
+
+		// BLOCKS: 9, 17, 25, 33, 41, 49 (FAR LEFT COLUMN)
+		if ((blockNumber-1) % 8 == 0 && blockNumber != 57 && blockNumber != 1){
+			console.log(blockNumber, typeof blockNumber);
+			this.click(blockNumber+this.topBlock);
+			this.click(blockNumber+this.topRight);
+			this.click(blockNumber+this.rightBlock);
+			this.click(blockNumber+this.bottomBlock);
+			this.click(blockNumber+this.bottomRight);
+			edges.push(blockNumber);
+		}
+
+		// BLOCKS: 16, 24, 32, 40, 48, 56 (FAR RIGHT COLUMN)
+		if (blockNumber % 8 == 0 && blockNumber != 8 && blockNumber != 64){
+			console.log(blockNumber, typeof blockNumber);
+			this.click(blockNumber+this.topLeft);
+			this.click(blockNumber+this.topBlock);
+			this.click(blockNumber+this.leftBlock);
+			this.click(blockNumber+this.bottomLeft);
+			this.click(blockNumber+this.bottomBlock);
+			edges.push(blockNumber);
+		}
+
+		// BLOCKS: 58, 59, 60, 61, 62, 63 (BOTTOM ROW)
+		if (blockNumber > 57 && blockNumber < 64){
+			console.log(blockNumber, typeof blockNumber);
+			this.click(blockNumber+this.topLeft);
+			this.click(blockNumber+this.topBlock);
+			this.click(blockNumber+this.topRight);
+			this.click(blockNumber+this.leftBlock);
+			this.click(blockNumber+this.rightBlock);
+			edges.push(blockNumber);
+		}
+
+		// ALL MIDDLE BLOCKS
+		if ($.inArray(blockNumber, edges) === -1){
+			console.log(blockNumber, typeof blockNumber);
+			this.click(blockNumber+this.topLeft);
+			this.click(blockNumber+this.topBlock);
+			this.click(blockNumber+this.topRight);
+			this.click(blockNumber+this.leftBlock);
+			this.click(blockNumber+this.rightBlock);
+			this.click(blockNumber+this.bottomLeft);
+			this.click(blockNumber+this.bottomBlock);
+			this.click(blockNumber+this.bottomRight);
 		}
 	},
 	// blowOffScreen: function(block) {
