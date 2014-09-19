@@ -32,10 +32,8 @@ ol, ul {
 blockquote, q {
 	quotes: none;
 }
-blockquote:before, 
-blockquote:after,
-q:before, 
-q:after {
+blockquote:before, blockquote:after,
+q:before, q:after {
 	content: '';
 	content: none;
 }
@@ -70,14 +68,18 @@ table {
 	text-align: center;
 	line-height: 50px;
 	font-size: 1.5em;
-	color: transparent;
+	/*color: transparent;*/
+	/*color: white;*/
+	/*background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );*/
+	/*background-image: gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );*/
+	/*background: white;*/
 }
 .header {
 	float: left;
 	text-align: center;
  	display: block;
 }
-.start {
+.start, .flag {
 	border: 2px solid white;
 	display: block;
 	margin: 20px auto;
@@ -93,19 +95,29 @@ body {
 	background-image: gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
 }
 
-.block, .start {
+.block, .start, .flag {
   	position: relative;
     -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
        -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
             box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            /*box-shadow: -2px -2px -1px black;*/
 }
 .block:before, 
 .block:after, 
 .start:before,
 .start:after {
+	/*content:"";*/
+    /*position:absolute; */
+    /*z-index:-1;*/
     -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
     -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
     box-shadow:0 0 20px rgba(0,0,0,0.8);
+    /*top:10px;*/
+    /*bottom:10px;*/
+    /*left:0;
+    right:0;*/
+    /*-moz-border-radius:100px / 10px;*/
+    /*border-radius:100px / 10px;*/
 } 
 .block:after,
 .start:after {
@@ -114,4 +126,14 @@ body {
         -ms-transform:skew(8deg) rotate(3deg);     
          -o-transform:skew(8deg) rotate(3deg); 
             transform:skew(8deg) rotate(3deg);
+}
+.flagged {
+	background: black;
+}
+.bombsleft, .youWin {
+	font-family: Helvetica, sans-serif;
+	color: white;
+	font-size: 1.7em;
+	text-align: center;
+	margin-bottom: 10px; 
 }

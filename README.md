@@ -22,8 +22,6 @@ DELETE KEYWORD
 
 ** Bugs:
 
-Cannot flag bombs, because the bombs array does not allow for a flagged key. Either check the bombs array for the blockNumber in the click function, or make bombs an object (like nonBombs) and have a flagged attribute. Might be more cohesive if I create an object. So, i'm leaning that route...
-
 ** Future Implementation
 
 CSS:
@@ -31,8 +29,6 @@ CSS:
 • Create Explosion animation for entire board when bomb is clicked.
 
 JS:
-• Update flagMode
-• Update bombsLeft
 • Open connecting 0 blocks after each click.
 
 ** Layout of game object:
@@ -40,49 +36,48 @@ JS:
 mineSweeper = {
 	<!-- active: BOOLEAN, -->
 	<!-- handler: BOOLEAN, -->
-	gameBlocks: ARRAY (NUMBERS 1 - 64),
-	bombs: ARRAY,
-	nonBombs: OBJECT (KEY = BLOCK NUMBER, VALUE = BOMBS TOUCHING IT),
+	<!-- gameBlocks: ARRAY (NUMBERS 1 - 64), -->
+	bombs: {
+		flagged: BOOLEAN
+	},
+	nonBombs: {
+		touchingBombs:	#,
+		active:			BOOLEAN,
+		flagged:		BOOLEAN
+	},
 	<!-- playerClicks: ARRAY, -->
-	<!-- flagMode: BOOLEAN, -->
-	<!-- bombsLeft: INTEGER, -->
+	flagMode: BOOLEAN,
+	bombsLeft: #,
+	topLeft: -9,
+	topBlock: -8,
+	topRight: -7,
+	leftBlock: -1,
+	rightBlock: 1,
+	bottomLeft: 7,
+	bottomBlock: 8,
+	bottomRight: 9,
 	<!-- init: FUNCTION, -->
 	<!-- initBlockHandler: FUNCTION, -->
 	newGame: FUNCTION,
-	isItABomb: FUNCTION,
 	randomizeBombs: FUNCTION,
-	<!-- checkTopLeftBlock: FUNCTION, -->
 	dropBombs: FUNCTION,
 	populateNonBombs: FUNCTION,
-	eachBlocksSurroundings: FUNCTION,
-	<!-- flagBlock: FUNCTION, -->
+	placeNonBombs: FUNCTION,
+	isItABomb: FUNCTION,
+	checkBlock: FUNCTION,
+	click: FUNCTION,
+	switchToFlagMode: FUNCTION,
+	flagBlock: FUNCTION,
+	displayNumberOfBombsLeft: FUNCTION,
+	didYouWin: FUNCTION
 	<!-- blowOffScreen: FUNCTION, -->
 	<!-- logPlayerClicks: FUNCTION, -->
-	<!-- checkBlock: FUNCTION, -->
-	<!-- displayNumberOfBombsLeft: FUNCTION, -->
-
+	<!-- incorrectClick: FUNCTION -->
 }
 
 ****************************
 Scratch Pad
 ****************************
 
-mineSweeper = {
-	nonBombs = {
-		# = {
-			active/clicked/uncovered: BOOLEAN,
-			touchingBombs: ARRAY,
-			flagged: BOOLEAN
-		}
-	}
-}
 
 To make a bomb explode, i could add 9 figures within each block div. each figure has a different color of the rainbow and when the div is clicked, the figures disperse off the side of the screen, and the div is left with a white background.
-
-
-
-
-
-
-
-
