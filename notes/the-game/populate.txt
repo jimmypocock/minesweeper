@@ -1,0 +1,73 @@
+POPULATE
+
+Files Needed:
+• minesweeper.js
+
+
+Final Code:
+MineSweeper.js
+/*
+  Instantiate game with:
+  var game = new MineSweeper({
+    rows: Int,
+    columns: Int,
+    mines: Int
+  });
+*/
+
+function MineSweeper(settings){
+
+  /*****
+    HELPER FUNCTIONS:
+  *****/
+
+  // GENERATE NUMBER FOR RANDOMIZED MINES
+  var generateNum = function(max){
+    return String(Math.ceil( Math.random() * max - 1));
+  };
+
+  // THIS IS SO WE CAN RECIEVE THE NUMBERS AS STRINGS OR INTEGERS
+  this.numRows = parseInt(settings.rows, 10),
+  this.numColumns = parseInt(settings.columns, 10),
+  this.numMines = parseInt(settings.mines, 10),
+
+  // A MINE WILL LOOK LIKE: '0_1':[0,1]
+  this.mines = {};
+
+  // THIS IS A 2D ARRAY [[]]
+  this.blocks = [];
+
+  // RUN IMMEDIATELY TO POPULATE MINES
+  this.populateMines = function(){
+    this.mines = {};
+    while(Object.keys(this.mines).length < this.numMines){
+      var x = generateNum(this.numColumns),
+          y = generateNum(this.numRows),
+          key = x+'_'+y;
+      if (this.mines[key]) continue;
+      this.mines[key] = true;
+    }
+    return this.mines;
+  };
+
+  // MINES MUST BE POPULATED FIRST
+  this.populateBlocks = function(){
+    var row,
+        coords;
+    for (var x = 0; x < this.numColumns; x++){
+      row = []
+      for (var y = 0; y < this.numRows; y++){
+        coords = {x:x, y:y};
+        row.push({
+          flagged: false,
+          active: true
+        });
+      }
+      this.blocks.push(row);
+    }
+    return this.blocks;
+  };
+
+  this.populateMines();
+  this.populateBlocks();
+};

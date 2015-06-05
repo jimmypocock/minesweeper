@@ -1,0 +1,22 @@
+OUTLINE:
+
+I. The Game
+  a. Populate
+  b. Is it a Mine?
+  c. Is it touching a Mine?
+  d. Flag Mode
+  e. Click It
+
+II. The Board
+  a. Build It
+  b. Flag It
+  c. Click It
+  d. Game Over
+
+III. The Style
+  a. Mines in Space
+    1. Background image - Unsplash
+    2. full-width.js
+    3. Font - Astronaut
+  b. Choose Your Size
+  c. Making it Flow
