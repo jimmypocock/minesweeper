@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MineSweeper</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="scripts/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="scripts/minesweeper.js"></script>
+    <script type="text/javascript" src="scripts/board.js"></script>
+    <script type="text/javascript" src="scripts/full-width.js"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
+  </head>
+  <body>
+    <h1>MineSweeper</h1>
+    <input type="number" id="rows" placeholder="Rows">
+    <input type="number" id="columns" placeholder="Columns">
+    <input type="number" id="mines" placeholder="Mines">
+    <input type="submit" id="start" value="Start">
+    <input type="submit" id="flag" value="Flag Mode: Off" class="hidden">
+    <div class="text hidden" id="mines-left-container">Mines Left: <span id="mines-left"></span></div>
+    <input type="submit" id="new-game" value="New Game" class="hidden">
+    <div id="board"></div>
+
+  </body>
+</html>
